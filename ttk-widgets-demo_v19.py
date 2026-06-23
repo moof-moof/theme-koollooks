@@ -24,15 +24,21 @@ from PIL import Image, ImageTk, ImageDraw
 
 
 # Version number
-vnum ='v18'
+vnum ='v19'
 
 # WIDTH, HEIGHT = 500, 700
 
-# Chicago text "colours"
+# Chicago text "bicolours"
 chi_fg =     '#000000'
 chi_bg =     '#ffffff'
 chi_act_fg = '#ffffff'
 chi_act_bg = '#000000'
+
+# Cursor images
+arrow_16       = "gumby"
+mac_mickey_16  = "mouse"
+sizegripper_16 = "gobbler"
+i_beam_16      = "bogosity"
 
 
 
@@ -40,7 +46,7 @@ def main():
     app = Example()
     app.mainloop()
 
-        
+
 
 class Example(ThemedTk):
     
@@ -50,15 +56,19 @@ class Example(ThemedTk):
         ThemedTk.__init__(self, fonts=True, themebg=True)
         self.set_theme(theme)
         self.title('Finder Demo '+ vnum)
+        self.minsize(350, 425) 
+        self.maxsize(400, 600)
         self.resizable(True, True)
 
         self.style = ttk.Style()
         self.style.theme_use(theme)
+        self.configure(cursor=arrow_16)
         
     # Some global customizations
         self.style.map("TButton", foreground=[('pressed', chi_bg)])
         self.buttonFont = ('Chicago Kare', 12)
         self.monofont = ('monaco-12-(accurate)', 12)
+        self.tk_strictMotif=0
         
         self.img_indicator = tk.PhotoImage(file=os.path.expanduser( \
                                                      "~/koollooks_alias/sub-menu-indicator-sn.gif"))        
@@ -74,6 +84,9 @@ class Example(ThemedTk):
         self.option_add('*TButton*takeFocus',      0)
         self.option_add('*TRadiobutton*takeFocus', 0)
         self.option_add('*TCheckbutton*takeFocus', 0)
+        
+        self.columnconfigure(0, weight=1)
+        self.rowconfigure(0, weight=1)
 
 
 
@@ -82,51 +95,102 @@ class Example(ThemedTk):
 
     # Menubar
         self.setup_menubar()
+        
     # Notebook
         self.notebook = ttk.Notebook(self)
-        self.notebook.add(ttk.Button(self, style="nobo.TButton", text="Akchully...", width=2), text="Tab 1" )
-        self.notebook.add(ttk.Button(self, style="nobo.TButton", text="Hello Universe"), text="Tab 2")
+        self.notebook.add(ttk.Button(self, 
+                                    width=2, 
+                                    style="nobo.TButton", 
+                                    text="Akchully...", 
+                                    cursor=mac_mickey_16), 
+                                    text="Tab 1")
+        self.notebook.add(ttk.Button(self, 
+                                    style="nobo.TButton", 
+                                    text="Hello Universe", 
+                                    cursor=mac_mickey_16), 
+                                    text="Tab 2")
     # Label        
-        self.labelv = ttk.Label(self, text='  ['+ vnum + ']  ')   
+        self.labelv = ttk.Label(self, text='  ['+ vnum + ']  ')  
+         
     # Options menu        
-        self.dropdown = ttk.OptionMenu(self, tk.StringVar(), " Pick-val", "1st Value", "2nd Value")
+        self.dropdown = ttk.OptionMenu(self, tk.StringVar(), " Pick-val", "  1st Value", " 2nd Value")
+        self.dropdown.config(cursor=mac_mickey_16)
         self.dropdown["menu"].config(background=chi_bg,
                             activebackground=chi_act_bg,
-                            activeforeground=chi_act_fg)
+                            activeforeground=chi_act_fg, 
+                            cursor=mac_mickey_16)
     # TextEntry box        
-        self.entry = ttk.Entry(self, textvariable=tk.StringVar(value="Default entry value."))
+        self.entry = ttk.Entry(self, 
+                            textvariable=tk.StringVar(value="Default entry value."), 
+                            cursor=i_beam_16)
     # Button(Fancy)
         self.button1 = self.fancy_butt("OK", 5, self.do_nuthin()) 
+    
     # Button(Plain)
-        self.button2 = ttk.Button(self, style="Plain.TButton", width=6, padding=5, text="Cancel") 
+        self.button2 = ttk.Button(self, 
+                                style="Plain.TButton", 
+                                width=6, 
+                                padding=5, 
+                                text="Cancel", 
+                                cursor=mac_mickey_16) 
     # Radio        
-        self.radio_one = ttk.Radiobutton(self, text="Off", value=True)
-        self.radio_two = ttk.Radiobutton(self, text="On", value=False)
+        self.radio_one = ttk.Radiobutton(self, text="On",  value=True, cursor=mac_mickey_16)
+        self.radio_two = ttk.Radiobutton(self, text="Off", value=False, cursor=mac_mickey_16)
+
     # Listbox
-        self.listbox = tk.Listbox(self, width=3, height=9, font=self.monofont, bg=chi_bg,
-                    selectbackground=chi_act_bg, selectforeground=chi_act_fg, activestyle='none')
+        self.listbox = tk.Listbox(self, 
+                                width=3, 
+                                height=9, 
+                                font=self.monofont, 
+                                bg=chi_bg,
+                                selectbackground=chi_act_bg, 
+                                selectforeground=chi_act_fg, 
+                                activestyle='none', 
+                                cursor=mac_mickey_16)
         self.listbox.insert(tk.END, *(f" #{i}" for i in range(100)))
+
     # Scrollbar
-        self.scrollv = ttk.Scrollbar(self, orient=tk.VERTICAL, command=self.listbox.yview) 
-        self.listbox.configure(yscrollcommand=self.scrollv.set)
-        #self.listbox['yscrollcommand']=self.scrollv.set   # similar alternative statement
+        # Create a scrollbar and grid it:
+        self.scrollv = ttk.Scrollbar(self, orient=tk.VERTICAL, command=self.listbox.yview, cursor=mac_mickey_16)
+
+        # Configure bilateral association of listbox and scrollbar:
+        self.listbox['yscrollcommand'] = self.scrollv.set
+#         self.scrollv.config(command = self.listbox.yview)   # similar, alternative statement
+
+   
     # Checkbtn     
-        self.checked = ttk.Checkbutton(self, text="Checked", variable=tk.BooleanVar(value=True))
-        self.unchecked = ttk.Checkbutton(self, text="Unchecked")
+        self.checked = ttk.Checkbutton(self, 
+                                        text="Checked", 
+                                        variable=tk.BooleanVar(value=True), 
+                                        cursor=mac_mickey_16)
+        self.unchecked = ttk.Checkbutton(self, 
+                                        text="Unchecked", 
+                                        cursor=mac_mickey_16)
     # Treeview
-        self.tree = ttk.Treeview(self, height=5, show=("tree", "headings"))
+        self.tree = ttk.Treeview(self, height=5, show=("tree", "headings"), cursor=mac_mickey_16)
         self.setup_tree()
+    
     # ScaleEntry
-        self.scale_entry = ScaleEntry(self, from_=0, to=50, orient=tk.HORIZONTAL, compound=tk.RIGHT)
+        self.scale_entry = ScaleEntry(self, 
+                                    from_=0, to=50, 
+                                    orient=tk.HORIZONTAL, 
+                                    compound=tk.RIGHT, 
+                                    cursor=mac_mickey_16)
     # Combobox
-        self.style.configure('TCombobox', background=chi_bg, foreground=chi_fg)
-        self.combo = AutocompleteCombobox(self, completevalues=["something", "nothing", "Tralah"])
+        self.style.configure('TCombobox', background=chi_bg, foreground=chi_fg)   # Superfluous?
+        self.combo = AutocompleteCombobox(self, 
+                                        cursor=arrow_16, 
+                                        completevalues=["something", "nothing", "Tralah"])
         self.option_add("*TCombobox*Listbox*Background", chi_bg)
         self.option_add("*TCombobox*Listbox*Foreground", chi_fg)
+        self.option_add("*TCombobox*Listbox*cursor", i_beam_16)
+    
     # Progress bar
         self.progress = ttk.Progressbar(self, maximum=100, value=70)
+    
     # Sizegrip
-        self.sizegrip = ttk.Sizegrip(self)
+        self.grip = ttk.Sizegrip(self, cursor=sizegripper_16)
+   
     # Separator (horisontal) as spacer?:
         self.separator1h = ttk.Separator()
 
@@ -142,9 +206,8 @@ class Example(ThemedTk):
     def do_nuthin(self):
         pass
 
-    def change_title(self):
-        self.title("OK )Yahooo(")
-        
+##  Menu.tk_strictMotif=False  ## TEST THIS
+
     def setup_menubar(self):
         """Setup a standard menubar"""
         self.menubar = tk.Menu(self,
@@ -153,6 +216,7 @@ class Example(ThemedTk):
                             activeforeground=chi_act_fg,
                             borderwidth=1)
         self.config(menu=self.menubar)
+        self.menubar.configure(cursor=mac_mickey_16)
     # Apple -----------------------------------------------        
         self.apple_menu = tk.Menu(self.menubar,
                             bg=chi_bg,
@@ -160,6 +224,7 @@ class Example(ThemedTk):
                             activebackground=chi_act_bg,
                             activeforeground=chi_act_fg)
         self.apple_menu.add_command(label="About...", command=self.do_nuthin())
+        self.apple_menu.add_separator()
         self.apple_menu.add_command(label="Help", command=self.do_nuthin())
         self.menubar.add_cascade(menu=self.apple_menu, \
                                 label=(u'\uf8ff'), \
@@ -217,24 +282,24 @@ class Example(ThemedTk):
 
     def fancy_butt(self, txt, hpad, cmd):        
         ''' 
-    1. Map the 7-pixel border regions '''
+    1. Map the 7-pixels thick border regions '''
         # format: border = (left, top, right, bottom)
         # Setting top/bottom to 0 prevents vertical scaling distortions
         self.style.element_create(
-            "Custom.Button.background", 
+            "dflt.Button.background", 
             "image", 
             self.img_normal,
             ("pressed", self.img_pressed),
             ("active", self.img_active),
-            border=(7, 0, 7, 0),    # Protects 7px on each side (left/right)
+            border=(7, 0, 7, 0),    # Claims 7px on each side (left/right)
             sticky="ew"             # Restricts stretching strictly to the X-axis
         )
         ''' 
     2. Rebuild button layout with centered text '''
         self.style.layout(
-            "Custom.TButton",
+            "dflt.TButton",
             [
-                ("Custom.Button.background", {"children": [
+                ("dflt.Button.background", {"children": [
                     ("Button.padding", {"children": [ 
                         ("Button.label", {"sticky": "nswe"}) 
                     ], 'sticky': 'nswe'})
@@ -245,13 +310,14 @@ class Example(ThemedTk):
     3. Enforce the fixed 28px height '''
         # Koolooks/clam may add default padding, so we control that explicitly here.
         # Inside padding: left/right, top/bottom (managed by image height).
-        self.style.configure("Custom.TButton", padding=((hpad-12), 0))
+        self.style.configure("dflt.TButton", padding=((hpad-12), 0))
         # Force the button widget to match our 28px image limit natively.
-        self.option_add("*Custom.TButton.height", 28)
+        self.option_add("*dflt.TButton.height", 28)
         # This width param is ignored, just stuck on 78px (7+64+7) even with padding=0!
-        self.option_add("*Custom.TButton.width", 0)
-
-        return ttk.Button(self, style="Custom.TButton", text=txt, command=cmd)
+        self.option_add("*dflt.TButton.width", 0)
+        
+        # We sneak in the Mickey Mouse pointer glove on return
+        return ttk.Button(self, style="dflt.TButton", text=txt, command=cmd, cursor=mac_mickey_16)
   
     
     def grid_widgets(self):
@@ -263,17 +329,17 @@ class Example(ThemedTk):
         self.entry.grid(row=2, column=2, **sticko)
         self.button1.grid(row=3, column=0, columnspan=1, padx=10, pady=10)
         self.button2.grid(row=3, column=1, columnspan=1, sticky=tk.NS)
-        self.radio_two.grid(row=4, column=1, **sticko)
-        self.radio_one.grid(row=4, column=2, **sticko)
+        self.radio_one.grid(row=4, column=1, **sticko)
+        self.radio_two.grid(row=4, column=2, **sticko)
         self.checked.grid(row=5, column=1, **sticko)
         self.unchecked.grid(row=5, column=2, **sticko)        
         self.listbox.grid(row=6, column=0, rowspan=3, padx=12, pady=0, sticky="new")
-        self.scrollv.grid(row=0, column=3, rowspan=9, padx=5, pady=5, **sticko)
+        self.scrollv.grid(row=0, column=3, rowspan=10, padx=5, pady=5, **sticko)
         self.tree.grid(row=6, column=1, columnspan=2, **sticko)
         self.scale_entry.grid(row=7, column=1, columnspan=2, **sticko)
         self.combo.grid(row=8, column=1, columnspan=2, sticky="w")
         self.progress.grid(row=9, column=1, columnspan=2, padx=5, pady=5, **sticko)
-        self.sizegrip.grid(row=9, column=3 )
+        self.grip.grid(row=10, column=3, sticky="se")
         self.separator1h.grid(row=10, column=1, sticky="we")
 
 

@@ -56,7 +56,8 @@ namespace eval ttk::theme::koollooks {
 	font configure TkDefaultFont -family {Chicago Kare} -size 12
 	font configure TkMenuFont    -family {Chicago Kare} -size 12
 	font configure TkTextFont 	 -family geneva10px -size 10
-	font configure TkFixedFont   -family monaco-12-kustom  -size 12
+	#font configure TkFixedFont   -family monaco-12-kustom  -size 12
+	font configure TkFixedFont   -family monaco-12-accurate  -size 12
 	font configure TkIconFont    -family {Chicago Kare} -size 16
 	
     ttk::style theme create koollooks -parent clam -settings {
@@ -134,6 +135,7 @@ namespace eval ttk::theme::koollooks {
 #        ttk::style configure Menuitem.indicatoron 0 -indicatoron 0
 
 
+
         ## Buttons.
         #
         
@@ -141,7 +143,7 @@ namespace eval ttk::theme::koollooks {
 
         ## Plain Buttons.
         #  ^^^^^^^^^^^^^
-        ttk::style configure TButton -padding {10 10} \
+        ttk::style configure TButton -padding {5 5} \
 									 -anchor center \
 									 -width 8
         ttk::style layout TButton {
@@ -167,7 +169,7 @@ namespace eval ttk::theme::koollooks {
 
         ## Default Buttons.
         #  ^^^^^^^^^^^^^^^
-        ttk::style configure dflt.TButton -padding {10 10} \
+        ttk::style configure dflt.TButton -padding {10 0} \
 									 -anchor center \
 									 -width 8
         ttk::style layout dflt.TButton {
@@ -319,7 +321,7 @@ namespace eval ttk::theme::koollooks {
             Scrollbar.trough -sticky ns -children {
                 Scrollbar.uparrow -side top
                 Scrollbar.downarrow -side bottom
-                Vertical.Scrollbar.thumb -side top -expand true -sticky ns  ; # ****************
+                Vertical.Scrollbar.thumb -side top -expand true -sticky ns  
             }
         }
 
@@ -334,14 +336,14 @@ namespace eval ttk::theme::koollooks {
         ttk::style element create Vertical.Scrollbar.thumb image \
             [list $I(sbthumb-vn) \
                  disabled $I(sbthumb-vd) \
-                 pressed $I(sbthumb-va) \
+                 pressed $I(sbthumb-vp) \
                  active $I(sbthumb-va)] \
             -border 3
             
         ttk::style element create Horizontal.Scrollbar.thumb image \
             [list $I(sbthumb-hn) \
                  disabled $I(sbthumb-hd) \
-                 pressed $I(sbthumb-ha) \
+                 pressed $I(sbthumb-hp) \
                  active $I(sbthumb-ha)] \
             -border 3
 
@@ -391,7 +393,10 @@ namespace eval ttk::theme::koollooks {
 
         ## Statusbar parts.
         #
-        ttk::style element create sizegrip image $I(sizegrip)
+        ttk::style element create sizegrip image \
+			[list $I(sizegrip-n) \
+                 pressed $I(sizegrip-p) \
+                 active $I(sizegrip-a)] 
 
 
         ## Paned window parts.
