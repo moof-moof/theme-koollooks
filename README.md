@@ -18,4 +18,4 @@ The inherited license is Tcl  <https://www.tcl-lang.org/software/tcltk/license.h
 
 ![ ](./meta/Finder_demo_18.png)
 ![ ](./meta/Finder_demo_18_(menu).png)
-![ ](./meta/custom cursors.png)
+![ ](./meta/custom_cursors.png)
