@@ -12,7 +12,10 @@ Included in this repository is a simple Demo app, which has no actual function o
 
 On a linux system the tcl-files provided here would typically be located in ~/.local/share/tcltk.
 
+However, our custom cursor images, being appropriated from the legacy set of X11/tcltk recognised cursor types, is expected to be found in a directory of your chosen system cursor theme, e.g. ~/.local/share/icons/mate-black/cursors
+
 The inherited license is Tcl  <https://www.tcl-lang.org/software/tcltk/license.html>
 
 ![ ](./meta/Finder_demo_18.png)
 ![ ](./meta/Finder_demo_18_(menu).png)
+![ ](./meta/custom cursors.png)

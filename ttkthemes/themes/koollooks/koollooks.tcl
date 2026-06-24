@@ -159,7 +159,6 @@ namespace eval ttk::theme::koollooks {
         ttk::style element create button image \
             [list $I(button-n) \
                  pressed $I(button-p) \
-                 {selected active} $I(button-pa) \
                  selected $I(button-p) \
                  active $I(button-a) \
                  disabled $I(button-d) \
