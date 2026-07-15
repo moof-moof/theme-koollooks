@@ -2,12 +2,12 @@
 # This software is copyrighted by the Regents of the University of California,
 # Sun Microsystems, Inc., Scriptics Corporation, and other parties.
 
-####	VERSION 260610
+####	VERSION 260702
 
 
 namespace eval ttk::theme::koollooks {
 
-    package provide ttk::theme::koollooks 0.1
+    package provide ttk::theme::koollooks 0.2
 
     proc LoadImages {imgdir {patterns {*.gif}}} {
         foreach pattern $patterns {
@@ -36,14 +36,12 @@ namespace eval ttk::theme::koollooks {
         -darkest        	"#000000"
         -selectbg       	"#000000"
         -selectfg       	"#ffffff"
-        #-disabledfg     	"#b5b3ac"
-        -disabledfg     	"#C9C9C9"
+        -disabledfg     	"#c9c9c9"
         -entryfocus     	"#000000"
         -tabbg          	"#ffffff"
         -tabborder      	"#000000"
-        -troughcolor    	"#eeeeee"
+        -troughcolor    	"#ffffff"
         -troughborder   	"#000000"
-        #-checklight     	"#f7fcff"
         -checklight     	"#ffffff"
         -altindicator		"#000000"
         -disabledaltindicator "#b5b3ac"
@@ -286,7 +284,6 @@ namespace eval ttk::theme::koollooks {
                 ] \
             -border 4 -sticky ew
 
-#########################################################################################################
 
         ## Notebooks.
         #
@@ -306,18 +303,17 @@ namespace eval ttk::theme::koollooks {
             
 
 
-#########################################################################################################
-
-
         ## Labelframes.
         #
         ttk::style configure TLabelframe -borderwidth 2 -relief groove
+        
 
+#########################################################################################################
 
         ## Scrollbars.
         #
         ttk::style layout Vertical.TScrollbar {
-            Scrollbar.trough -sticky ns -children {
+            Vertical.Scrollbar.trough -sticky ns -children {
                 Scrollbar.uparrow -side top
                 Scrollbar.downarrow -side bottom
                 Vertical.Scrollbar.thumb -side top -expand true -sticky ns  
@@ -325,7 +321,7 @@ namespace eval ttk::theme::koollooks {
         }
 
         ttk::style layout Horizontal.TScrollbar {
-            Scrollbar.trough -sticky we -children {
+            Vertical.Scrollbar.trough -sticky we -children {
                 Scrollbar.leftarrow -side left
                 Scrollbar.rightarrow -side right
                 Horizontal.Scrollbar.thumb -side left -expand true -sticky we
@@ -346,6 +342,9 @@ namespace eval ttk::theme::koollooks {
                  active $I(sbthumb-ha)] \
             -border 3
 
+        ttk::style element create Horizontal.Scrollbar.trough image $I(sbtrough-h)
+        ttk::style element create Vertical.Scrollbar.trough image $I(sbtrough-v)
+
         foreach direc {up down left right} {
             ttk::style element create ${direc}arrow image \
                 [list $I(arrow${direc}-n) \
@@ -356,6 +355,8 @@ namespace eval ttk::theme::koollooks {
         }
 
         ttk::style configure TScrollbar -bordercolor $colors(-troughborder)
+
+#########################################################################################################
 
 
         ## Scales.
