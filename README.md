@@ -16,6 +16,6 @@ However, the custom cursor images, having been appropriated from the legacy set 
 
 The inherited license is Tcl  <https://www.tcl-lang.org/software/tcltk/license.html>
 
-![ ](./meta/Finder_demo_v2.09_a.png)
-![ ](./meta/Finder_demo_v2.09_b.png)
+![ ](./meta/Finder_demo_v2.10_a.png)
+![ ](./meta/Finder_demo_v2.10_b.png)
 ![ ](./meta/custom_cursors.png)

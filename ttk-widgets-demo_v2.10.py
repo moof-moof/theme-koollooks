@@ -26,7 +26,7 @@ from PIL import Image, ImageTk, ImageDraw
 from itertools import count
 
 # Version number
-vnum ='v2.09'
+vnum ='v2.10'
 
 # WIDTH, HEIGHT = 500, 700
 
@@ -87,9 +87,10 @@ class Example(ThemedTk):
 
 
 
-#                       Create widgets:
-#  ***********************************************************
-
+#                      Create widgets:
+#  *************************************************************#
+                                                                #
+                                                                #
 #[kl] "Slate"
         kl.KL_setup_slate(self, 350, 475)
         
@@ -153,7 +154,7 @@ class Example(ThemedTk):
         self.labelvers = ttk.Label(self, text='['+ vnum + ']    ')
 
 #+++# Label as a margin spacer  
-        self.spaceXY = ttk.Label(self, width=1, background=chi_bg) #"#97FF97")
+        self.spaceXY = ttk.Label(self, width=1, background=chi_bg)
          
 #[kl] Options menu        
         self.dropdown = kl.KL_optionsmenu(self, 
@@ -197,7 +198,11 @@ class Example(ThemedTk):
         self.listbox.insert(tk.END, *(f" #{i}" for i in range(100)))
 
 #+++# Scrollbar
-        self.scrollv = ttk.Scrollbar(self, orient=tk.VERTICAL, command=self.listbox.yview, cursor=mac_mickey_16)
+        self.scrollv = ttk.Scrollbar(self, 
+                                        orient=tk.VERTICAL, 
+                                        command=self.listbox.yview, 
+                                        cursor=mac_mickey_16)
+                                        
         self.style.configure("Vertical.TScrollbar", arrowsize=40)
 
         # Configure bilateral association of listbox and scrollbar:
@@ -206,7 +211,10 @@ class Example(ThemedTk):
         # self.scrollv.config(command = self.listbox.yview)
 
 #+++# Treeview
-        self.tree = ttk.Treeview(self, height=5, show=("tree", "headings"), cursor=mac_mickey_16)
+        self.tree = ttk.Treeview(self, 
+                                height=5, 
+                                show=("tree", "headings"), 
+                                cursor=mac_mickey_16)
         self.setup_tree()
     
 #+++# ScaleEntry
@@ -255,9 +263,10 @@ class Example(ThemedTk):
     # Grid widgets
         self.grid_widgets()
 
+                                                                #
+#                    [End create widgets]                       #
+#  *************************************************************#
 
-#                       End create widgets:
-#  ***********************************************************
 
 
     def stop_all_progress(self):
@@ -276,7 +285,7 @@ class Example(ThemedTk):
         
         self.tree.heading("#0", text="Tree Heading")
 
-    
+
     
     def setup_menubar(self):
         """Setup a standard menubar populated with some stubs"""
@@ -361,13 +370,14 @@ class Example(ThemedTk):
         self.checked.grid(  row=5, column=3,                padx=5,                 **sticko)
         self.unchecked.grid(row=6, column=3,                padx=5,                 **sticko)        
         self.listbox.grid(  row=7, column=0, rowspan=3,     padx=12,    pady=0,     sticky="new")
-        self.scrollv.grid(  row=0, column=4, rowspan=11,    padx=0,     pady=1,     sticky="nes")
+        self.scrollv.grid(  row=0, column=4, rowspan=11,    padx=0,     pady=(1,16),sticky="nes")
         self.tree.grid(     row=7, column=2, columnspan=2,  padx=5,                 **sticko)
         self.scale.grid(    row=8, column=2, columnspan=2,  padx=5,                 **sticko)
         self.combo.grid(    row=9, column=2, columnspan=2,  padx=5,                 sticky="w")
         self.r1.grid(       row=9, column=0,                                        sticky="s")
         self.r2.grid(       row=10,column=0,                                        sticky="n")
         self.progress.grid( row=10,column=2, columnspan=2,  padx=5,     pady=12,    **sticko)
+        self.grip.grid(     row=10,column=4,                                        sticky="se")
         
         self.rowconfigure( 0, minsize=2,    weight=1)
         self.rowconfigure(10, minsize=5,    weight=0)
