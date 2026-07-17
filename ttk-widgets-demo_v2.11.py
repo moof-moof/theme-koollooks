@@ -26,7 +26,7 @@ from PIL import Image, ImageTk, ImageDraw
 from itertools import count
 
 # Version number
-vnum ='v2.10'
+vnum ='v2.11'
 
 # WIDTH, HEIGHT = 500, 700
 
@@ -66,14 +66,9 @@ class Example(ThemedTk):
         self.style.theme_use(theme)
         self.configure(cursor=arrow_16)
         
-    # Some global customizations
-        self.style.map("TButton", foreground=[('pressed', chi_bg)])
-        self.buttonFont = ('Chicago Kare', 12)
-        self.monofont = ('monaco-12-(accurate)', 12)
-        self.tk_strictMotif=0
-        
-        self.img_indicator = tk.PhotoImage(file=os.path.expanduser( \
-                            "~/koollooks_alias/sub-menu-indicator-sn.gif")) 
+#[kl] Some global customizations
+        kl.KL_some_global_customizations(self)
+
 
     # Let's turn off every kind of focus-indication already!
         self.style.configure("TNotebook.Tab", focuscolor="chi_bg")
@@ -103,7 +98,7 @@ class Example(ThemedTk):
     # Let's add some (1-bit) images to the Notebook! 
    
     #   (1) Create a frame within the notebook window
-        f1 = tk.Frame(self, background="#FFF")
+        f1 = tk.Frame(self, background="#fff")
         
     #   (2) Load the image using PIL
         image_f11 = "./assets/dogcow48x48.png"
@@ -236,13 +231,13 @@ class Example(ThemedTk):
 #+++# Radio group for progress bar
         self.v = tk.StringVar(self, "1")
         
-        self.r1 = ttk.Radiobutton(self, 
+        self.st1 = ttk.Radiobutton(self, 
                                     text="Start", 
                                     variable = self.v, 
                                     value=2,
                                     command = lambda: self.progress.start(75),
                                     cursor=mac_mickey_16)                               
-        self.r2 = ttk.Radiobutton(self, 
+        self.st2 = ttk.Radiobutton(self, 
                                     text="Stop!", 
                                     variable = self.v, 
                                     value=1,
@@ -366,16 +361,16 @@ class Example(ThemedTk):
         self.button1.grid(  row=4, column=0, columnspan=1,  padx=10,    pady=10)
         self.button2.grid(  row=4, column=2, columnspan=1,  padx=5,                 sticky="nsw")   
         self.radio_one.grid(row=5, column=2,                padx=5,                 **sticko)
-        self.radio_two.grid(row=6, column=2,                padx=5,     pady=(5,0), **sticko)
+        self.radio_two.grid(row=6, column=2,                padx=5,     pady=(0,5), **sticko)
         self.checked.grid(  row=5, column=3,                padx=5,                 **sticko)
-        self.unchecked.grid(row=6, column=3,                padx=5,                 **sticko)        
+        self.unchecked.grid(row=6, column=3,                padx=5,     pady=(0,5), **sticko)        
         self.listbox.grid(  row=7, column=0, rowspan=3,     padx=12,    pady=0,     sticky="new")
         self.scrollv.grid(  row=0, column=4, rowspan=11,    padx=0,     pady=(1,16),sticky="nes")
         self.tree.grid(     row=7, column=2, columnspan=2,  padx=5,                 **sticko)
         self.scale.grid(    row=8, column=2, columnspan=2,  padx=5,                 **sticko)
         self.combo.grid(    row=9, column=2, columnspan=2,  padx=5,                 sticky="w")
-        self.r1.grid(       row=9, column=0,                                        sticky="s")
-        self.r2.grid(       row=10,column=0,                                        sticky="n")
+        self.st1.grid(      row=9, column=0,                padx=12,                 sticky="ws")
+        self.st2.grid(      row=10,column=0,                padx=12,                sticky="wn")
         self.progress.grid( row=10,column=2, columnspan=2,  padx=5,     pady=12,    **sticko)
         self.grip.grid(     row=10,column=4,                                        sticky="se")
         

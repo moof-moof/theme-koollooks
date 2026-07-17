@@ -11,6 +11,8 @@ from ttkwidgets.autocomplete import AutocompleteCombobox
 from PIL import Image, ImageTk, ImageDraw
 from itertools import count
 
+
+
 # Chicago text "bicolours"
 chi_fg = chi_act_bg = '#000000'
 chi_bg = chi_act_fg = '#ffffff'
@@ -22,9 +24,8 @@ sizegripper_16 = "gobbler"
 i_beam_16      = "bogosity"
 
 
-'''
-||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-
+'''                                                         
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| version 1.03
 '''
 
 
@@ -52,6 +53,16 @@ def KL_setup_slate(parent, _w, _h):
     parent.resizable(True, True) 
 
     return perim_frame
+    
+    
+
+def KL_some_global_customizations(parent):
+    
+    parent.style.map("TButton", foreground=[('pressed', chi_bg)])
+    parent.buttonFont = ('Chicago Kare', 12)
+    parent.monofont = ('monaco-12-(accurate)', 12)
+    parent.img_indicator = tk.PhotoImage(file=os.path.expanduser( \
+                        "~/koollooks_alias/sub-menu-indicator-sn.gif")) 
 
 
 
