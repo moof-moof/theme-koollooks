@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-
+'''
+VERSION USING PLACE().
+'''
 import os
 import tkinter as tk
 from tkinter import ttk
@@ -25,34 +27,38 @@ i_beam_16      = "bogosity"
 
 
 '''                                                         
-||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| version 1.03
+||||||||||||||||||||-VERSION USING PLACE()-|||||||||||||||| version 1.4p
 '''
 
 
-def KL_setup_slate(parent, _w, _h):
+
+
+def KL_setup_dBoxProc(parent, _w, _h):
     
     perim_frame = tk.Frame( parent,  
-                            bg     = "#FFF",
-                            borderwidth = 10, 
+                            bg = "#ccf",
+#                             borderwidth = 1, 
                             highlightbackground = "#000", 
                             highlightthickness  = 1, 
-                            padx   = 0, 
-                            pady   = 0, 
-                            bd     = 0,  
                             cursor = "gumby",
                             width  = _w, 
-                            height = _h   )
+                            height = _h )
 
-    perim_frame.grid(row=0, column=0, rowspan=100, columnspan=100, sticky="news")
-    perim_frame.rowconfigure(0, weight=0)
-    perim_frame.columnconfigure(0, weight=1)
-    perim_frame.rowconfigure(1, weight=2)
 
-    parent.minsize(_w, _h)
-    parent.maxsize((_w+50), (_h+50))
-    parent.resizable(True, True) 
+    inner_frame = tk.Frame( parent,
+                            bg = chi_bg,
+                            highlightbackground = "#000", 
+                            highlightthickness  = 1, 
+#                             cursor = "gumby",
+                            width  = _w - 8,
+                            height = _h - 8)
 
-    return perim_frame
+
+    perim_frame.place(x=0, y=0)
+    inner_frame.place(x=4, y=4)
+    
+
+
     
     
 
@@ -187,7 +193,7 @@ def  KL_entry(parent, dflt_str):
                     selectforeground = chi_act_fg,
                     exportselection = False,
                     takefocus = False,
-                    cursor = i_beam_16 
+                    cursor = i_beam_16
                     )
     return entry
 
@@ -275,4 +281,35 @@ def KL_listbox(parent, wid, hgt):
 
 
 
+
+def KL_LabelFrame(canv, oX, oY, wid, hei, txt):
+        
+    _nw = oX,       oY
+    _ne = (oX+wid), oY 
+    _se = (oX+wid),(oY+hei)
+    _sw = oX,      (oY+hei)
+    
+    canv.create_rectangle(oX,oY, oX+wid,oY+hei, width=1)
+    
+    Lbl = tk.Label(text=txt, bg=chi_bg, fg=chi_fg)
+    Lbl.place(x=oX+16, y=oY-3)
+
+
+
+def KL_dashed_LabelFrame(canv, oX, oY, wid, hei, txt):
+
+    _nw = oX,       oY          # 248,      33      >   248x, 33y
+    _ne = (oX+wid), oY          # 248+213,  33      >   461x, 33y
+    _se = (oX+wid),(oY+hei)     # 248+213,  33+130  >   461x, 163y
+    _sw = oX,      (oY+hei)     # 248,      33+130  >   248x, 163y
+    
+# Draw each edge separately:
+    canv.create_line(_nw,_ne , dash=(1, 1), width=1, fill='black')
+    canv.create_line(_ne,_se , dash=(1, 1), width=1, fill='black')
+    canv.create_line(_se,_sw , dash=(1, 1), width=1, fill='black')
+    canv.create_line(_sw,_nw , dash=(1, 1), width=1, fill='black')
+
+# Slap a text label across top edge:
+    Lbl = tk.Label(canv, text = txt, bg = chi_bg, fg = chi_fg)
+    Lbl.place(x = oX+8, y = oY-10)
 
