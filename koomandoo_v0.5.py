@@ -349,41 +349,8 @@ class Composer(ThemedTk):
         self.radbtn15.config(state='normal')
         self.radbtn16.config(state='normal')
         self.radbtn17.config(state='normal')
+   
     
-
-#     def regular_rect(self, oX, oY, wid, hei, txt, canv):
-            
-#             _nw = oX,       oY
-#             _ne = (oX+wid), oY 
-#             _se = (oX+wid),(oY+hei)
-#             _sw = oX,      (oY+hei)
-            
-#             canv.create_rectangle(oX,oY, oX+wid,oY+hei, width=1)
-# #             canv.place(x=0, y=0)
-            
-#             self.Lbl = tk.Label(text=txt, bg=chi_bg, fg=chi_fg)
-#             self.Lbl.place(x=oX+16, y=oY-3)
-
-
-#     def dashed_labelframe(self, oX, oY, wid, hei, txt, canv):
-
-#         _nw = oX,       oY          # 248,      33      >   248x, 33y
-#         _ne = (oX+wid), oY          # 248+213,  33      >   461x, 33y
-#         _se = (oX+wid),(oY+hei)     # 248+213,  33+130  >   461x, 163y
-#         _sw = oX,      (oY+hei)     # 248,      33+130  >   248x, 163y
-        
-#     # Draw each edge separately:
-#         canv.create_line(_nw,_ne , dash=(1, 1), width=1, fill='black')
-#         canv.create_line(_ne,_se , dash=(1, 1), width=1, fill='black')
-#         canv.create_line(_se,_sw , dash=(1, 1), width=1, fill='black')
-#         canv.create_line(_sw,_nw , dash=(1, 1), width=1, fill='black')
- 
-#     # Slap a text label across top edge:
-#         self.Lbl = tk.Label(canv, text = txt, bg = chi_bg, fg = chi_fg)
-#         self.Lbl.place(x = oX+8, y = oY-10)
-   
-   
-        
 #***********************************************************************
 #
 #     def stop_all_progress(self):
