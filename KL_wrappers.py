@@ -1,7 +1,6 @@
 #!/usr/bin/python3
-'''
-VERSION USING PLACE().
-'''
+
+
 import os
 import tkinter as tk
 from tkinter import ttk
@@ -27,40 +26,37 @@ i_beam_16      = "bogosity"
 
 
 '''                                                         
-||||||||||||||||||||-VERSION USING PLACE()-|||||||||||||||| version 1.4p
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| version 1.5
 '''
 
 
-
-
-def KL_setup_dBoxProc(parent, _w, _h):
+def KL_setup_slate(parent, _w, _h):
     
     perim_frame = tk.Frame( parent,  
-                            bg = "#ccf",
-#                             borderwidth = 1, 
+                            bg     = "#FFF",
+                            borderwidth = 10, 
                             highlightbackground = "#000", 
                             highlightthickness  = 1, 
+                            padx   = 0, 
+                            pady   = 0, 
+                            bd     = 0,  
                             cursor = "gumby",
                             width  = _w, 
-                            height = _h )
+                            height = _h   )
 
+    perim_frame.grid(row=0, column=0, rowspan=100, columnspan=100, sticky="news")
+    perim_frame.rowconfigure(0, weight=0)
+    perim_frame.columnconfigure(0, weight=1)
+    perim_frame.rowconfigure(1, weight=2)
 
-    inner_frame = tk.Frame( parent,
-                            bg = chi_bg,
-                            highlightbackground = "#000", 
-                            highlightthickness  = 1, 
-#                             cursor = "gumby",
-                            width  = _w - 8,
-                            height = _h - 8)
+    parent.minsize(_w, _h)
+    parent.maxsize((_w+50), (_h+50))
+    parent.resizable(True, True) 
 
-
-    perim_frame.place(x=0, y=0)
-    inner_frame.place(x=4, y=4)
-    
-
-
+    return perim_frame
     
     
+
 
 def KL_some_global_customizations(parent):
     
@@ -279,6 +275,37 @@ def KL_listbox(parent, wid, hgt):
                     )  
     return lbx
 
+
+
+
+'''                                                         
+||||||||||||||-DEFS USING PLACE() IN PLACES-|||||||||||| version 1.5_pl
+'''
+
+def KL_setup_dBoxProc(parent, _w, _h):
+    
+    perim_frame = tk.Frame( parent,  
+                            bg = "#ccf",
+#                             borderwidth = 1, 
+                            highlightbackground = "#000", 
+                            highlightthickness  = 1, 
+                            cursor = "gumby",
+                            width  = _w, 
+                            height = _h )
+
+
+    inner_frame = tk.Frame( parent,
+                            bg = chi_bg,
+                            highlightbackground = "#000", 
+                            highlightthickness  = 1, 
+#                             cursor = "gumby",
+                            width  = _w - 8,
+                            height = _h - 8)
+
+
+    perim_frame.place(x=0, y=0)
+    inner_frame.place(x=4, y=4)
+    
 
 
 

@@ -3,7 +3,7 @@
 LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
 
 Koomandoo is a facsimile recreation of Apple Unix (A/UX) utility (called 
-"Comando") for composing unix commands simply by choosing available 
+"Commando") for composing unix commands simply by choosing available 
 command-options through point-and-click. This python application has no 
 actual functionality yet, just a pretty ui.
 
