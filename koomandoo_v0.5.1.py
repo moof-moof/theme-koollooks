@@ -34,7 +34,7 @@ from PIL import Image, ImageTk, ImageDraw
 from itertools import count
 
 # Version number
-vnum ='v0.5'
+vnum ='v0.5.1'
 
 WIDTH, HEIGHT = 496, 311
 
@@ -117,7 +117,7 @@ class Composer(ThemedTk):
                             
         self.Bframe. place (x=8, y=7)
 
-
+        
 #+++# Canvas :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
@@ -149,7 +149,7 @@ class Composer(ThemedTk):
                                                     213, 62, 
                                                     "Mark file types")
 #       ----------------------------------------------------------------                                             
-        show_More_Frm =   kl.KL_dashed_LabelFrame(self.canvas2,
+        show_More_Frm =      kl.KL_dashed_LabelFrame(self.canvas2,
                                                     4, 8, 
                                                     213, 62, 
                                                     "Show more information") 
@@ -162,7 +162,7 @@ class Composer(ThemedTk):
 #+++# kl.LabelFrames :::::::::::::::::::::::::::::::::::::::::::::::::::
 
         self.lf_options = kl.KL_LabelFrame(self.canvas0,
-                                            5, 8, 
+                                            5, 8,
                                             470, 182, 
                                             'ls Options')
 #       ----------------------------------------------------------------
@@ -176,6 +176,16 @@ class Composer(ThemedTk):
                                             350, 44, 
                                             'Help')
 
+#+++" kl.KL_help_text ::::::::::::::::::::::::::::::::::::::::::::::::::
+
+        self.help_text = kl.KL_help_text(self.canvas0,
+            oX = 8, 
+            oY = 250, 
+            txt1 = 'List the contents of a directory and/or display information about the files ', 
+            txt2 = 'listed.',
+            txt3 = '')
+
+
 #+++# Radio groups :::::::::::::::::::::::::::::::::::::::::::::::::::::
 
         self.var_mark   = tk.StringVar(self, "11")        # 3 switches
@@ -185,7 +195,7 @@ class Composer(ThemedTk):
 
     ## Filter types
         self.radbtn1 = ttk.Radiobutton(self.lf_options, 
-                                        text="No Marking", 
+                                        text="No marking", 
                                         variable = self.var_mark,
                                         value=1, 
                                         cursor=mac_mickey_16) 
@@ -350,8 +360,10 @@ class Composer(ThemedTk):
         self.radbtn16.config(state='normal')
         self.radbtn17.config(state='normal')
    
-    
-#***********************************************************************
+
+
+
+#********************** Do we need a menu? *****************************
 #
 #     def stop_all_progress(self):
 #         val = self.progress["value"]

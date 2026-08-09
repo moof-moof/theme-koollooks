@@ -13,6 +13,10 @@ from PIL import Image, ImageTk, ImageDraw
 from itertools import count
 
 
+# Exclusive set of fonts
+buttonFont = ('Chicago Kare', 12)
+textfont = ('Geneva 9.1', 12)
+monofont = ('Monaco Regular', 8)
 
 # Chicago text "bicolours"
 chi_fg = chi_act_bg = '#000000'
@@ -26,7 +30,7 @@ i_beam_16      = "bogosity"
 
 
 '''                                                         
-||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| version 1.5
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| version 1.6
 '''
 
 
@@ -62,10 +66,11 @@ def KL_some_global_customizations(parent):
     
     parent.style.map("TButton", foreground=[('pressed', chi_bg)])
     parent.buttonFont = ('Chicago Kare', 12)
-    parent.monofont = ('monaco-12-(accurate)', 12)
+#     parent.monofont = ('monaco-12-(accurate)', 12)
+    parent.monofont = ('Monaco Regular', 8)
+    parent.textfont = ('Geneva 9.1', 12)
     parent.img_indicator = tk.PhotoImage(file=os.path.expanduser( \
                         "~/koollooks_alias/sub-menu-indicator-sn.gif")) 
-
 
 
 def KL_checkbutton(parent, txt, bool_var):
@@ -340,3 +345,36 @@ def KL_dashed_LabelFrame(canv, oX, oY, wid, hei, txt):
     Lbl = tk.Label(canv, text = txt, bg = chi_bg, fg = chi_fg)
     Lbl.place(x = oX+8, y = oY-10)
 
+
+
+def KL_help_text(canv, oX, oY, txt1, txt2, txt3):
+    '''
+    To avoid having the help-text background overwriting parts of the labelframe,
+    we can control the effective lineheight by making each text-line a separate label.
+    '''
+    _fo = textfont
+    _an = "e"
+    _ju = tk.LEFT
+    _bg = chi_bg 
+    _fg = chi_fg
+
+    '''
+    Note that the order of the following variable declarations is reversed. 
+    This is to prevent lines from being partially obscured by its succeeding line'''
+    line3 = tk.Label(canv, text=txt3, font=_fo, anchor=_an, justify=_ju, bg=_bg, fg=_fg, height=1)
+    line2 = tk.Label(canv, text=txt2, font=_fo, anchor=_an, justify=_ju, bg=_bg, fg=_fg, height=1)
+    line1 = tk.Label(canv, text=txt1, font=_fo, anchor=_an, justify=_ju, bg=_bg, fg=_fg, height=1)
+
+    '''
+    Finally the line-heights are set to 11px instead of the default 12
+    '''
+    line1.place(x=oX, y=oY)
+    line2.place(x=oX, y=oY+11)
+    line3.place(x=oX, y=oY+22)
+    
+    
+        
+    
+    
+    
+    
