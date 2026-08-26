@@ -1,5 +1,5 @@
 
-#### Regarding some tcl files in the local tk directory.
+### Regarding some tcl files in the local tk directory.
 
 The **tkfbox.tcl** file implements the Tk standard file selection dialog box (example below), used on unix-like platforms whenever the *tk_strictMotif* flag is not set.
 
