@@ -66,7 +66,7 @@ def KL_some_global_customizations(parent):
     
     parent.style.map("TButton", foreground=[('pressed', chi_bg)])
     parent.buttonFont = ('Chicago Kare', 12)
-#     parent.monofont = ('monaco-12-(accurate)', 12)
+    parent.disabledFont = ('chicago-disabled-2', 12)
     parent.monofont = ('Monaco Regular', 8)
     parent.textfont = ('Geneva 9.1', 12)
     parent.img_indicator = tk.PhotoImage(file=os.path.expanduser( \

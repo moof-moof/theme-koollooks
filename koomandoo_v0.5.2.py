@@ -34,7 +34,7 @@ from PIL import Image, ImageTk, ImageDraw
 from itertools import count
 
 # Version number
-vnum ='v0.5.1'
+vnum ='v0.5x'
 
 WIDTH, HEIGHT = 496, 311
 
@@ -98,7 +98,7 @@ class Composer(ThemedTk):
 
 
 #                      Create widgets:
-#  *************************************************************#
+#  ********************************************************************#
 
 
 #+++# Ground work ::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -109,17 +109,15 @@ class Composer(ThemedTk):
 
 # Frame-up from the bottom
         self.Bframe = tk.Frame(self,
-#                             bg = "#BFDEFE",
-                            bg = chi_bg,
-                            cursor = "gumby",
-                            width  = wdB,       # == 480
-                            height = htB )      # == 294
+                                bg = chi_bg,
+                                cursor = "gumby",
+                                width  = wdB,       # == 480
+                                height = htB )      # == 294
                             
         self.Bframe. place (x=8, y=7)
 
         
 #+++# Canvas :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
 
         self.canvas0 = tk.Canvas(self.Bframe,
                                     highlightthickness=0, 
@@ -149,7 +147,7 @@ class Composer(ThemedTk):
                                                     213, 62, 
                                                     "Mark file types")
 #       ----------------------------------------------------------------                                             
-        show_More_Frm =      kl.KL_dashed_LabelFrame(self.canvas2,
+        self.show_More_Frm = kl.KL_dashed_LabelFrame(self.canvas2,
                                                     4, 8, 
                                                     213, 62, 
                                                     "Show more information") 
@@ -226,55 +224,66 @@ class Composer(ThemedTk):
         self.radbtn11.place(x=xa+242, y=ya+16)
 #       ----------------------------------------------------------------
         self.radbtn12 = ttk.Radiobutton(self.lf_options, 
-                                        text=" sorted vertically", 
+                                        text="  sorted vertically",
                                         variable = self.var_sort,
                                         value=2, 
                                         cursor=mac_mickey_16,
-                                        state='disabled') 
+                                        state='disabled')
         self.radbtn12.place(x=xa+242, y=ya+33)
 #       ----------------------------------------------------------------
         self.radbtn13 = ttk.Radiobutton(self.lf_options, 
-                                        text=" sorted horizontally", 
+                                        text="  sorted horizontally", 
                                         variable = self.var_sort,
                                         value=3, 
                                         cursor=mac_mickey_16,
-                                        state='disabled') 
+                                        state='disabled')
         self.radbtn13.place(x=xa+242, y=ya+50)
-        
-#       ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+#       ----------------------------------------------------------------
 
 
-        self.radbtn14 = ttk.Radiobutton(self.lf_options, 
-                                        text="Long format", 
+
+    ## Configure custom text styles for different radio-button "states"
+        self.style.configure("Norml.TRadiobutton", font=("Chicago Kare", 12))
+                                                    
+        self.style.configure("Disab.TRadiobutton", foreground="black",
+                                                   font=("Chicago-Disabled-3", 12))
+
+
+        self.radbtn14 = ttk.Radiobutton(self.listStyle_Frm,
+                                        text="Long format",
                                         variable = self.var_format,
                                         value=2, 
                                         cursor=mac_mickey_16,
-                                        command = self.enbl_group_opts) 
+                                        command = self.enbl_info_opts) 
         self.radbtn14.place(x=xa+242, y=ya+67)
 #       ----------------------------------------------------------------
         self.radbtn15 = ttk.Radiobutton(self.lf_options, 
-                                        text=" show ID numbers",
+                                        text="  show ID numbers",
+                                        style = "Norml.TRadiobutton",
                                         variable = self.var_group, 
                                         value=1, 
                                         cursor=mac_mickey_16,
-                                        state='disabled') 
+                                        state='disabled')
         self.radbtn15.place(x=xa+242, y=ya+84)
 #       ----------------------------------------------------------------
         self.radbtn16 = ttk.Radiobutton(self.lf_options, 
-                                        text=" no group information",
+                                        text="  no group information",
+                                        style = "Norml.TRadiobutton",
                                         variable = self.var_group,  
                                         value=2, 
                                         cursor=mac_mickey_16,
-                                        state='disabled') 
+                                        state='disabled')
         self.radbtn16.place(x=xa+242, y=ya+101)
 #       ----------------------------------------------------------------
         self.radbtn17 = ttk.Radiobutton(self.lf_options, 
-                                        text=" no owner information",
+                                        text="  no owner information",
+                                        style = "Norml.TRadiobutton",
                                         variable = self.var_group,  
                                         value=3, 
                                         cursor=mac_mickey_16,
-                                        state='disabled') 
+                                        state='disabled')
         self.radbtn17.place(x=xa+242, y=ya+118)
+
 
 
 #+++# Checkbuttons :::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -337,100 +346,28 @@ class Composer(ThemedTk):
 
 
 
-#                    [End create widgets]                       #
-#  *************************************************************#
+#                    [End create widgets]                              #
+#  ********************************************************************#
 
 
     def enbl_sort_opts(self, *args):
     # Enable sorts:
-        self.radbtn12.config(state='normal')
-        self.radbtn13.config(state='normal')
-    # Disable groups:
-        self.radbtn15.config(state='disabled')
-        self.radbtn16.config(state='disabled')
-        self.radbtn17.config(state='disabled')
+        self.radbtn12.config(state='normal', style="Norml.TRadiobutton")
+        self.radbtn13.config(state='normal', style="Norml.TRadiobutton")
+    # Disable info-groups:
+        self.radbtn15.config(state='disabled', style="Disab.TRadiobutton")
+        self.radbtn16.config(state='disabled', style="Disab.TRadiobutton")
+        self.radbtn17.config(state='disabled', style="Disab.TRadiobutton")
 
 
-    def enbl_group_opts(self, *args):
+    def enbl_info_opts(self, *args):
     # Disable sorts:
-        self.radbtn12.config(state='disabled')
-        self.radbtn13.config(state='disabled')
-    # Enable groups:
-        self.radbtn15.config(state='normal')
-        self.radbtn16.config(state='normal')
-        self.radbtn17.config(state='normal')
-   
-
-
-
-#********************** Do we need a menu? *****************************
-#
-#     def stop_all_progress(self):
-#         val = self.progress["value"]
-#         self.progress.stop()
-#         self.progress["value"] = val
-
-#     def setup_menubar(self):
-#         """Setup a standard menubar populated with some stubs"""
-#         self.menubar = tk.Menu(self,
-#                             bg=chi_bg,
-#                             activebackground=chi_act_bg,
-#                             activeforeground=chi_act_fg,
-#                             borderwidth=1)
-#         self.config(menu=self.menubar)
-#         self.menubar.configure(cursor=mac_mickey_16)
-#     # Apple -----------------------------------------------        
-#         self.apple_menu = tk.Menu(self.menubar,
-#                             bg=chi_bg,
-#                             tearoff=False,
-#                             activebackground=chi_act_bg,
-#                             activeforeground=chi_act_fg)
-#         self.apple_menu.add_command(label="About...", command=False)
-#         self.apple_menu.add_separator()
-#         self.apple_menu.add_command(label="Help", command=False)
-#         self.menubar.add_cascade(menu=self.apple_menu, \
-#                                 label=(u'\uf8ff'), \
-#                                 font=('Chicago Kare', 12)) 
-#     # File -----------------------------------------------
-#         self.file_menu = tk.Menu(self.menubar,
-#                             bg=chi_bg,
-#                             tearoff=False,
-#                             activebackground=chi_act_bg,
-#                             activeforeground=chi_act_fg)
-#         self.file_menu.add_command(label="New", command=False)
-#         self.file_menu.add_command(label="Open", command=False)
-#         self.file_menu.add_command(label="Save", command=False, state="disabled")
-#         self.file_menu.add_command(label="Save as...", command=False)
-#         self.file_menu.add_separator()
-#         self.file_menu.add_command(label="Quit", command=self.destroy)
-#         self.menubar.add_cascade(menu=self.file_menu, label="File")
-#     # Edit -----------------------------------------------
-#         self.edit_menu = tk.Menu(self.menubar,
-#                             bg=chi_bg,
-#                             tearoff=False,
-#                             activebackground=chi_act_bg,
-#                             activeforeground=chi_act_fg)
-#         self.edit_menu.add_command(label="Cut", command=False)
-#         self.edit_menu.add_command(label="Copy", command=False)
-#         self.edit_menu.add_command(label="Paste", command=False)
-#         self.edit_menu.add_command(label="Delete", command=False)
-#         self.edit_menu.add_command(label="Select All", command=False)
-#     # Edit>Options ----------------------------------------
-#         self.sub_edit_menu = tk.Menu(self.edit_menu,
-#                             bg=chi_bg,
-#                             tearoff=False,
-#                             relief="flat",  # Doesn't kill the corny relief arrow ...
-#                             activebackground=chi_act_bg,
-#                             activeforeground=chi_act_fg)
-#         self.sub_edit_menu.add_command(label="Subadub", command=False)
-#         self.sub_edit_menu.add_command(label="Yada", command=False)
-#         self.sub_edit_menu.add_command(label="Nada", command=False)
-#         self.edit_menu.add_cascade( menu=self.sub_edit_menu, 
-#                                     label="Options ",
-#                                     bitmap="", 
-#                                     image=self.img_indicator, 
-#                                     compound='right')
-#         self.menubar.add_cascade(menu=self.edit_menu, label="Edit")
+        self.radbtn12.config(state='disabled', style="Disab.TRadiobutton")
+        self.radbtn13.config(state='disabled', style="Disab.TRadiobutton")
+    # Enable info-groups:
+        self.radbtn15.config(state='normal', style="Norml.TRadiobutton")
+        self.radbtn16.config(state='normal', style="Norml.TRadiobutton")
+        self.radbtn17.config(state='normal', style="Norml.TRadiobutton")
 
 
 

@@ -2,12 +2,12 @@
 # This software is copyrighted by the Regents of the University of California,
 # Sun Microsystems, Inc., Scriptics Corporation, and other parties.
 
-####	VERSION 260702
+####	VERSION 260822
 
 
 namespace eval ttk::theme::koollooks {
 
-    package provide ttk::theme::koollooks 0.2
+    package provide ttk::theme::koollooks 0.3
 
     proc LoadImages {imgdir {patterns {*.gif}}} {
         foreach pattern $patterns {
@@ -36,7 +36,7 @@ namespace eval ttk::theme::koollooks {
         -darkest        	"#000000"
         -selectbg       	"#000000"
         -selectfg       	"#ffffff"
-        -disabledfg     	"#c9c9c9"
+        -disabledfg     	"#000000"
         -entryfocus     	"#000000"
         -tabbg          	"#ffffff"
         -tabborder      	"#000000"
@@ -46,17 +46,21 @@ namespace eval ttk::theme::koollooks {
         -altindicator		"#000000"
         -disabledaltindicator "#b5b3ac"
     }
-
-
+    
 	
-	#font configure TkDefaultFont -family {MacEnvy DB} -size 9
-	#font configure TkMenuFont    -family {MacEnvy DB} -size 9
-	font configure TkDefaultFont -family {Chicago Kare} -size 12
-	font configure TkMenuFont    -family {Chicago Kare} -size 12
-	font configure TkTextFont 	 -family geneva10px -size 10
-	#font configure TkFixedFont   -family monaco-12-kustom  -size 12
-	font configure TkFixedFont   -family monaco-12-accurate  -size 12
-	font configure TkIconFont    -family {Chicago Kare} -size 16
+	font configure TkDefaultFont -family {Chicago Kare}     -size 12 
+	font configure TkMenuFont    -family {Chicago Kare}     -size 12
+	font configure TkIconFont    -family {Chicago Kare}     -size 16
+	#font configure TkTextFont 	 -family {Geneva 10px}       -size 8
+	#font configure TkTextFont 	  -family {Geneva Regular}   -size 8
+	font configure TkTextFont 	 -family {Geneva 9.1}       -size 12
+	#font configure TkFixedFont   -family monaco-9-kustom   - size 12
+	#font configure TkFixedFont   -family monaco-12-kustom   -size 12
+	#font configure TkFixedFont   -family monaco-12-accurate -size 12
+	font configure TkFixedFont   -family {Monaco Regular}   -size 9
+
+	font create DisabledFont     -family chicago-disabled-3 -size 12
+	
 	
     ttk::style theme create koollooks -parent clam -settings {
 
@@ -201,7 +205,7 @@ namespace eval ttk::theme::koollooks {
                  {active selected} $I(check-ac) \
                  active $I(check-au) \
                  selected $I(check-nc) ] \
-            -width 24 -sticky w
+            -width 17 -sticky w
 
         ttk::style map TCheckbutton -background [list active $colors(-checklight)]
         ttk::style configure TCheckbutton -padding 1
@@ -218,10 +222,10 @@ namespace eval ttk::theme::koollooks {
                   {active selected} $I(radio-ac) \
                   active $I(radio-au) \
                   selected $I(radio-nc) ] \
-            -width 24 -sticky w
+            -width 17 -sticky w
 
         ttk::style map TRadiobutton -background [list active $colors(-checklight)]
-        ttk::style configure TRadiobutton -padding 1
+        ttk::style configure TRadiobutton -padding 0
 
 
         ## Menubuttons.
@@ -305,7 +309,7 @@ namespace eval ttk::theme::koollooks {
 
         ## Labelframes.
         #
-        ttk::style configure TLabelframe -borderwidth 2 -relief groove
+        ttk::style configure TLabelframe -borderwidth 1 -relief solid
         
 
 #########################################################################################################
