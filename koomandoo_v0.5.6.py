@@ -22,10 +22,12 @@ LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
 import KL_wrappers as kl
 import tkinter as tk
 import os
+import sys
 import time
 from tkinter import ttk
 from tkinter import Tk
 from tkinter import font
+from tkinter import filedialog as fd
 from tkinter.ttk import Checkbutton, Button, LabelFrame
 from ttkthemes import ThemedTk, THEMES
 from ttkwidgets import ScaleEntry
@@ -34,7 +36,7 @@ from PIL import Image, ImageTk, ImageDraw
 from itertools import count
 
 # Version number
-vnum ='v0.5x'
+vnum ='v0.5.6'
 
 WIDTH, HEIGHT = 496, 311
 
@@ -50,6 +52,8 @@ i_beam_16      = "bogosity"
 
 theme = "koollooks"
 
+monofont = ('Monaco', 9)
+
 
 ## Measurements constants:
 wd = 496
@@ -64,6 +68,7 @@ ya = 24
 
 def main():
     app = Composer()
+    app.option_add("*underline", -1)    # Turn off mnemonics globally
     app.set_theme(theme)
     app.mainloop()
 
@@ -82,6 +87,7 @@ class Composer(ThemedTk):
         self.style = ttk.Style()
         self.style.theme_use(theme)
         self.configure(cursor=arrow_16)
+#         self.pwDir = "pwd"
         
 #[kl] Some global customizations
         kl.KL_some_global_customizations(self)
@@ -95,6 +101,11 @@ class Composer(ThemedTk):
         self.option_add('*TButton*takeFocus',      0)
         self.option_add('*TRadiobutton*takeFocus', 0)
         self.option_add('*TCheckbutton*takeFocus', 0)
+        
+    # Define a custom style for dialogs:
+#         self.option_add('*Dialog.msg.font', monofont)
+#         self.option_add('*Dialog.msg.width', 80)
+#         self.option_add("*Dialog.msg.wrapLength", "12c")
 
 
 #                      Create widgets:
@@ -103,7 +114,6 @@ class Composer(ThemedTk):
 
 #+++# Ground work ::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-#[kl] "Slate"
         kl.KL_setup_dBoxProc(self, wd, ht)
 
 
@@ -174,6 +184,22 @@ class Composer(ThemedTk):
                                             350, 44, 
                                             'Help')
 
+#+++" CommandLine input ::::::::::::::::::::::::::::::::::::::::::::::::::
+
+        # TextBox for input
+        cmd_str_box = tk.Text(self.canvas0, 
+                                bg      =   chi_bg, 
+                                font    =   monofont,
+                                bd      =   0,
+                                highlightthickness=0,
+                                cursor  =   i_beam_16, 
+                                height  =   1, 
+                                width   =   65
+                                )
+        cmd_str_box.place(x=10, y=208)
+
+
+
 #+++" kl.KL_help_text ::::::::::::::::::::::::::::::::::::::::::::::::::
 
         self.help_text = kl.KL_help_text(self.canvas0,
@@ -241,8 +267,13 @@ class Composer(ThemedTk):
 #       ----------------------------------------------------------------
 
 
-
-    ## Configure custom text styles for different radio-button "states"
+        '''
+        Configure custom text styles for different radio-button "states": 
+            When indicating the disabled state we change our TkDefault 
+            named font to a custom "dithered" font. 
+            Returning to normal state then requires the default font to
+            be explicitly defined again. '''
+        
         self.style.configure("Norml.TRadiobutton", font=("Chicago Kare", 12))
                                                     
         self.style.configure("Disab.TRadiobutton", foreground="black",
@@ -305,20 +336,36 @@ class Composer(ThemedTk):
 #+++# Buttons ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
        
 #[kl] Buttons(Plain)                (parent, txt, wid, cmd, pad):
-        self.button2 = kl.plain_butt(self, "Cancel",
-                            12, False, 0)
+#         self.button2 = kl.plain_butt(self, "Cancel",
+#                                                   12, 
+#                                                        self.destroy, 
+#                                                               0)
+        self.button2 = ttk.Button(self.lf_options, 
+                                        style   = "Plain.TButton",  
+                                        text    = "Cancel",
+                                        width   = 12,
+                                        padding = 0,
+                                        command = self.restart,
+                                        cursor  = mac_mickey_16
+                                        ) 
         self.button2.place(x=375, y=242)
 #       ----------------------------------------------------------------
-        self.button3 = kl.plain_butt(self.lf_options, "Choose directories/files", 
-                            26, False, 0)
+        self.button3 = ttk.Button(self.lf_options, 
+                                        style   = "Plain.TButton",  
+                                        text    = "Choose directories/files",
+                                        width   = 25,
+                                        padding = 0,
+                                        command = self.openDir,
+                                        cursor  = mac_mickey_16
+                                        ) 
         self.button3.place(x=6+xa, y=-1+ya)
 #       ----------------------------------------------------------------
         self.button4 = kl.plain_butt(self.lf_options, "More options", 
-                            12, False, 0)
+                                        12, False, 0)
         self.button4.place(x=254, y=169)
 #       ----------------------------------------------------------------
         self.button5 = kl.plain_butt(self.lf_options, "Output & Error", 
-                            13, False, 0)
+                                        13, False, 0)
         self.button5.place(x=364, y=169)
 #       ----------------------------------------------------------------
 
@@ -327,7 +374,7 @@ class Composer(ThemedTk):
         so has to pe placed last in order not to be partially covered by 
         the simpler button gif-image's surrounding "whitespace".
         '''
-#[kl] Button(Fancy)
+#[kl] Button(Fancy)                 (parent,  txt,     wid,  cmd ):
         self.button1 = kl.fancy_butt(self,"    ls    ", 29, False)
         self.button1.place(x=372, y=268) 
 
@@ -350,6 +397,49 @@ class Composer(ThemedTk):
 #  ********************************************************************#
 
 
+    def current_path(): 
+        pwd =os.getcwd()
+        print(f"Current working directory: {pwd}") 
+        return pwd 
+
+#     curr_pth = current_path()
+
+
+    def openDir(string):
+        dir_path = fd.askdirectory(
+            initialdir = "/home/xneb/Projects/py/koolloox-dev",
+            title = 'Select folder to list (ls)'
+            )
+#         option_add("*Dialog.underline", -1)
+
+        print(dir_path)
+        return dir_path
+
+
+    def openFile(self):
+        filepath = fd.askopenfilename(
+            initialdir = "/home/xneb/Projects/py/koolloox-dev",
+            title = 'Select folder to list (ls)',
+            filetypes =(('all files',    '*.*'),
+                        ('text files',   '*.txt'),
+                        ('python files', '*.py')))
+                    
+        print(filepath)
+
+
+    def save_to_cmd_str():
+        flags = txt.get("1.0", "end-1c")
+
+
+
+
+    def restart(self):
+        """ Note: this function does not return. Any cleanup action (like
+            saving data) must be done before calling this function."""
+        python = sys.executable
+        os.execl(python, python, * sys.argv)
+            
+
     def enbl_sort_opts(self, *args):
     # Enable sorts:
         self.radbtn12.config(state='normal', style="Norml.TRadiobutton")
@@ -368,10 +458,13 @@ class Composer(ThemedTk):
         self.radbtn15.config(state='normal', style="Norml.TRadiobutton")
         self.radbtn16.config(state='normal', style="Norml.TRadiobutton")
         self.radbtn17.config(state='normal', style="Norml.TRadiobutton")
+        
 
 
 
 if __name__ == '__main__':
     main()
+
+
 
 

@@ -26,7 +26,7 @@ from PIL import Image, ImageTk, ImageDraw
 from itertools import count
 
 # Version number
-vnum ='v2.11'
+vnum ='v2.12'
 
 # WIDTH, HEIGHT = 500, 700
 
@@ -170,7 +170,7 @@ class Example(ThemedTk):
 #+++# Radio group dummies
         self.v = tk.StringVar(self, "1")
         self.radio_one = ttk.Radiobutton(self, 
-                                        text="Radio 1", 
+                                        text="Radio 1       ", # <-- Using blank steps for expansion!
                                         variable = self.v, 
                                         value=1, 
                                         cursor=mac_mickey_16)                               
@@ -179,7 +179,7 @@ class Example(ThemedTk):
                                         variable = self.v, 
                                         value=2, 
                                         cursor=mac_mickey_16)
-#[kl] Check button dummies
+#[kl] Check-button dummies
         self.checked = kl.KL_checkbutton(self, 
                                         "Checked", 
                                         True)
@@ -189,19 +189,23 @@ class Example(ThemedTk):
                                         False)
 
 #[kl] Listbox
-        self.listbox = kl.KL_listbox(self, 3, 9)
+        self.listbox = kl.KL_listbox(self, 3, 8)
         self.listbox.insert(tk.END, *(f" #{i}" for i in range(100)))
 
-#+++# Scrollbar
-        self.scrollv = ttk.Scrollbar(self, 
-                                        orient=tk.VERTICAL, 
-                                        command=self.listbox.yview, 
-                                        cursor=mac_mickey_16)
+#+++# Scrollbar %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+        self.scrollv = kl.KL_vertical_scrollbar(self, self.listbox)
+        
+        
+#         self.scrollv = ttk.Scrollbar(self, 
+#                                         orient=tk.VERTICAL, 
+#                                         command=self.listbox.yview, 
+#                                         cursor=mac_mickey_16)
                                         
-        self.style.configure("Vertical.TScrollbar", arrowsize=40)
 
         # Configure bilateral association of listbox and scrollbar:
         self.listbox['yscrollcommand'] = self.scrollv.set
+        
         # A similar, alternative statement:
         # self.scrollv.config(command = self.listbox.yview)
 

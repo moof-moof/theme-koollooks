@@ -30,7 +30,7 @@ i_beam_16      = "bogosity"
 
 
 '''                                                         
-||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| version 1.6
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| version 1.8
 '''
 
 
@@ -253,7 +253,7 @@ def fancy_butt(parent, txt, hpad, cmd):
 
 
 
-def plain_butt(parent, txt, wid, cmd, pad):
+def plain_butt(parent, txt, wid, pad, cmd):
 
     return ttk.Button(parent, 
                     style   = "Plain.TButton",  
@@ -341,9 +341,23 @@ def KL_dashed_LabelFrame(canv, oX, oY, wid, hei, txt):
     canv.create_line(_se,_sw , dash=(1, 1), width=1, fill='black')
     canv.create_line(_sw,_nw , dash=(1, 1), width=1, fill='black')
 
-# Slap a text label across top edge:
+# Slap a text label across frame's top edge:
     Lbl = tk.Label(canv, text = txt, bg = chi_bg, fg = chi_fg)
     Lbl.place(x = oX+8, y = oY-10)
+
+
+def cmd_line_lbl(canv, oX, oY, dir_name):
+    
+    _fo = monofont
+    _an = "e"
+    _ju = tk.LEFT
+    _bg = chi_bg 
+    _fg = chi_fg
+    
+    prompt = tk.Label(canv, text=dir_name, font=_fo, anchor=_an, justify=_ju, bg=_bg, fg=_fg, height=1)
+
+
+    return prompt
 
 
 
@@ -371,10 +385,75 @@ def KL_help_text(canv, oX, oY, txt1, txt2, txt3):
     line1.place(x=oX, y=oY)
     line2.place(x=oX, y=oY+11)
     line3.place(x=oX, y=oY+22)
+
+
+
+def KL_vertical_scrollbar(parent, slave):
     
+    '''
+    This "alternative" scrollbar is a silly hack! The reason it is needed at all is 
+    due to the fact that Tkinter's filedialogue boxes, when requiring scrollbars 
+    (always horizontal by design), automatically use the "sbtrough-v" trough image which
+    of course is designed to fit vertical scrollbars only! It simply looks grotesque. 
+    Since the viewport parts of Tk's filedialogues are not managed by our app's code, 
+    but are actually rendered by OS routines "behind the scene", I doubt there exists 
+    an easy way for us to coerce the system to use the correct trough image.
     
+    This function is a work-around for "fixing" this bug: A copy of sbtrough-h.gif
+    is simply renamed sbtrough-v.gif. Meanwhile the "real" sbtrough-v image is
+    renamed sbtrough-w and instead used for all actual vertical scrollbars. '''
+
+# ---------------------------------------------------------
+# 1. Create a Custom Trough Image Element
+# ---------------------------------------------------------
+
+    parent.new_trough_img = tk.PhotoImage(file=os.path.expanduser(\
+                                            "~/koollooks_alias/sbtrough-w.gif"))
+    parent.style.element_create(  "w.trough", 
+                                  "image",
+                                   parent.new_trough_img,
+                                   sticky = "ns"
+                                   )
+
+# ---------------------------------------------------------
+# 2. Build the Custom Layout
+# ---------------------------------------------------------
+    ''' 
+    Define an alternate layout for our "new" vertical scrollbar style, replacing
+    the default "Vertical.Scrollbar.trough" with our custom "w.trough".'''
+
+    parent.style.layout("Alt.Vertical.TScrollbar", [
+        ('w.trough', {
+            'sticky': 'ns', 
+            'children': [
+                ('Vertical.Scrollbar.uparrow', {'side': 'top', 'sticky': ''}),
+                ('Vertical.Scrollbar.downarrow', {'side': 'bottom', 'sticky': ''}),
+                ('Vertical.Scrollbar.thumb', {'sticky': 'nswe', 'expand': '1'})
+            ]
+        })
+    ])
+
+# ---------------------------------------------------------
+# 3. Implement the Scrollbars
+# --------------------------------------------------------- 
+
+    parent.scrollw = ttk.Scrollbar(parent,
+                                    command= slave.yview, 
+                                    style="Alt.Vertical.TScrollbar",
+                                    cursor=mac_mickey_16
+                                )
+
+    # Callback to scrollbar from scrollable widget:
+    slave['yscrollcommand']  = parent.scrollw.set
+    
+    # A suitable pack() stanza:
+#     parent.scrollw.pack(padx=(0,4), pady=(5,5), side=tk.RIGHT, fill=tk.Y)
         
+    return  parent.scrollw
     
+
+# ?????????????????????????????????????????????????????????????????????????????????????
+# ¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿
+  
     
-    
-    
+
