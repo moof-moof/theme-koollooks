@@ -30,15 +30,57 @@ i_beam_16      = "bogosity"
 
 
 '''                                                         
-||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| version 1.8
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| version 1.9
+
+Index:  KL_setup_slate()
+        KL_some_global_customizations(()
+        KL_checkbutton()
+        KL_notebook()
+        KL_image_on_canvas()
+        KL_AnimLabel()
+        KL_optionsmenu()
+        KL_entry()
+        fancy_butt()
+        plain_butt()
+        KL_listbox()
+        KL_setup_dBoxProc()
+        KL_LabelFrame()
+        KL_dashed_LabelFrame()
+        cmd_line_lbl()
+        KL_help_text()
+        KL_setup_zoomDocProc()
 '''
 
 
-def KL_setup_slate(parent, _w, _h):
+# def KL_setup_slate(parent, _w, _h):
+    
+#     perim_frame = tk.Frame( parent,  
+#                             bg     = "#fff",
+# #                             borderwidth = 10,  # Why, oh, why?
+#                             highlightbackground = "#000", 
+#                             highlightthickness  = 1, 
+#                             padx   = 0, 
+#                             pady   = 0, 
+#                             bd     = 0,  
+#                             cursor = "gumby",
+#                             width  = _w, 
+#                             height = _h   )
+
+#     perim_frame.grid(row=0, column=0, rowspan=100, columnspan=100, sticky="news")
+#     perim_frame.rowconfigure(0, weight=0)
+#     perim_frame.columnconfigure(0, weight=1)
+#     perim_frame.rowconfigure(1, weight=2)
+
+#     parent.minsize(_w, _h)
+#     parent.maxsize((_w+50), (_h+50))
+#     parent.resizable(True, True) 
+
+#     return perim_frame
+
+def KL_setup_slate(parent, _w, _h, wexp=0, hexp=0, geom=None):
     
     perim_frame = tk.Frame( parent,  
-                            bg     = "#FFF",
-                            borderwidth = 10, 
+                            bg     = "#fff",
                             highlightbackground = "#000", 
                             highlightthickness  = 1, 
                             padx   = 0, 
@@ -47,20 +89,28 @@ def KL_setup_slate(parent, _w, _h):
                             cursor = "gumby",
                             width  = _w, 
                             height = _h   )
-
-    perim_frame.grid(row=0, column=0, rowspan=100, columnspan=100, sticky="news")
-    perim_frame.rowconfigure(0, weight=0)
-    perim_frame.columnconfigure(0, weight=1)
-    perim_frame.rowconfigure(1, weight=2)
+    
+    if geom == "grid" or geom == None:
+        perim_frame.grid(row=0, column=0, rowspan=100, columnspan=100, sticky="news")
+        perim_frame.rowconfigure(0, weight=0)
+        perim_frame.columnconfigure(0, weight=1)
+        perim_frame.rowconfigure(1, weight=2)
+#         print(geom)
+        
+    if geom ==  "place":
+#         perim_frame.place()
+#         print(geom)
+        pass
 
     parent.minsize(_w, _h)
-    parent.maxsize((_w+50), (_h+50))
-    parent.resizable(True, True) 
+    parent.maxsize((_w + wexp), (_h + hexp))
+    
+    if wexp > 0 or hexp > 0:            # inclusive OR
+        parent.resizable(wexp, hexp) 
 
     return perim_frame
     
     
-
 
 def KL_some_global_customizations(parent):
     
@@ -71,6 +121,7 @@ def KL_some_global_customizations(parent):
     parent.textfont = ('Geneva 9.1', 12)
     parent.img_indicator = tk.PhotoImage(file=os.path.expanduser( \
                         "~/koollooks_alias/sub-menu-indicator-sn.gif")) 
+
 
 
 def KL_checkbutton(parent, txt, bool_var):
@@ -284,7 +335,7 @@ def KL_listbox(parent, wid, hgt):
 
 
 '''                                                         
-||||||||||||||-DEFS USING PLACE() IN PLACES-|||||||||||| version 1.5_pl
+||||||||||||||- DEFS USING PLACE() IN PLACES -|||||||||||| version 1.5_pl
 '''
 
 def KL_setup_dBoxProc(parent, _w, _h):
@@ -307,11 +358,9 @@ def KL_setup_dBoxProc(parent, _w, _h):
                             width  = _w - 8,
                             height = _h - 8)
 
-
     perim_frame.place(x=0, y=0)
     inner_frame.place(x=4, y=4)
     
-
 
 
 def KL_LabelFrame(canv, oX, oY, wid, hei, txt):
@@ -388,18 +437,21 @@ def KL_help_text(canv, oX, oY, txt1, txt2, txt3):
 
 
 
+
 def KL_vertical_scrollbar(parent, slave):
     
     '''
-    This "alternative" scrollbar is a silly hack! The reason it is needed at all is 
-    due to the fact that Tkinter's filedialogue boxes, when requiring scrollbars 
-    (always horizontal by design), automatically use the "sbtrough-v" trough image which
-    of course is designed to fit vertical scrollbars only! It simply looks grotesque. 
+    This "alternative" scrollbar is a silly hack! The reason it is needed at all 
+    is the fact that Tkinter/GTK filedialogue boxes, when requiring scrollbars 
+    (which are always horizontal by design), confusingly use the trough image
+    named "sbtrough-v", which of course is meant to fit vertical scrollbars only! 
+    Not surprisingly it just looks grotesque.
+     
     Since the viewport parts of Tk's filedialogues are not managed by our app's code, 
-    but are actually rendered by OS routines "behind the scene", I doubt there exists 
-    an easy way for us to coerce the system to use the correct trough image.
+    but are actually rendered by OS routines "behind the scene", I doubt that there 
+    exists an easy way for us to coerce the system to use the correct trough image.
     
-    This function is a work-around for "fixing" this bug: A copy of sbtrough-h.gif
+    So this function is a work-around for "fixing" that bug: A copy of sbtrough-h.gif
     is simply renamed sbtrough-v.gif. Meanwhile the "real" sbtrough-v image is
     renamed sbtrough-w and instead used for all actual vertical scrollbars. '''
 
@@ -446,7 +498,7 @@ def KL_vertical_scrollbar(parent, slave):
     # Callback to scrollbar from scrollable widget:
     slave['yscrollcommand']  = parent.scrollw.set
     
-    # A suitable pack() stanza:
+    # A suitable .pack() stanza:
 #     parent.scrollw.pack(padx=(0,4), pady=(5,5), side=tk.RIGHT, fill=tk.Y)
         
     return  parent.scrollw
