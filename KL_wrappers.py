@@ -30,7 +30,7 @@ i_beam_16      = "bogosity"
 
 
 '''                                                         
-||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| version 1.9
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| version 1.9.1
 
 Index:  KL_setup_slate()
         KL_some_global_customizations(()
@@ -48,6 +48,7 @@ Index:  KL_setup_slate()
         KL_dashed_LabelFrame()
         cmd_line_lbl()
         KL_help_text()
+        KL_vertical_scrollbar
         KL_setup_zoomDocProc()
 '''
 
@@ -272,7 +273,7 @@ def fancy_butt(parent, txt, hpad, cmd):
         sticky="ew" )           # Restricts stretching strictly to the X-axis.
         
     ''' 
-2. Rebuild button layout with centered text '''
+2. Rebuild button layout with centred text '''
     parent.style.layout(
         "dflt.TButton", [(
             "dflt.Button.background", {"children": [(
@@ -486,7 +487,7 @@ def KL_vertical_scrollbar(parent, slave):
     ])
 
 # ---------------------------------------------------------
-# 3. Implement the Scrollbars
+# 3. Implement the Scrollbar
 # --------------------------------------------------------- 
 
     parent.scrollw = ttk.Scrollbar(parent,
