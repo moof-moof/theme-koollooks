@@ -23,10 +23,10 @@ from ttkthemes import ThemedTk, THEMES
 from ttkwidgets import ScaleEntry
 from ttkwidgets.autocomplete import AutocompleteCombobox
 from PIL import Image, ImageTk, ImageDraw
-from itertools import count
+# from itertools import count
 
 # Version number
-vnum ='v2.12'
+vnum ='v2.14'
 
 # WIDTH, HEIGHT = 500, 700
 
@@ -61,6 +61,8 @@ class Example(ThemedTk):
 #         self.minsize(350, 425) 
 #         self.maxsize(400, 600)
         self.resizable(True, True)
+        # Remove the wm's default title bar
+        self.overrideredirect(False)
 
         self.style = ttk.Style()
         self.style.theme_use(theme)
@@ -87,7 +89,7 @@ class Example(ThemedTk):
                                                                 #
                                                                 #
 #[kl] "Slate"
-        kl.KL_setup_slate(self, 350, 475)
+        kl.KL_setup_slate(self, 350, 550, 50, 100, "grid")
         
 #+++# Menubar
         self.setup_menubar()
@@ -173,7 +175,7 @@ class Example(ThemedTk):
                                         text="Radio 1       ", # <-- Using blank steps for expansion!
                                         variable = self.v, 
                                         value=1, 
-                                        cursor=mac_mickey_16)                               
+                                        cursor=mac_mickey_16)
         self.radio_two = ttk.Radiobutton(self, 
                                         text="Radio 2", 
                                         variable = self.v, 
@@ -195,16 +197,9 @@ class Example(ThemedTk):
 #+++# Scrollbar %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
         self.scrollv = kl.KL_vertical_scrollbar(self, self.listbox)
-        
-        
-#         self.scrollv = ttk.Scrollbar(self, 
-#                                         orient=tk.VERTICAL, 
-#                                         command=self.listbox.yview, 
-#                                         cursor=mac_mickey_16)
-                                        
 
         # Configure bilateral association of listbox and scrollbar:
-        self.listbox['yscrollcommand'] = self.scrollv.set
+#         self.listbox['yscrollcommand'] = self.scrollv.set
         
         # A similar, alternative statement:
         # self.scrollv.config(command = self.listbox.yview)
@@ -215,7 +210,7 @@ class Example(ThemedTk):
                                 show=("tree", "headings"), 
                                 cursor=mac_mickey_16)
         self.setup_tree()
-    
+
 #+++# ScaleEntry
         self.scale = ScaleEntry(self, 
                                 from_= 0, 
@@ -253,9 +248,9 @@ class Example(ThemedTk):
                                         maximum = 100, 
                                         value = 70)
 #+++# Sizegrip
-        self.grip = ttk.Sizegrip(self, cursor=sizegripper_16)
+        self.grip = ttk.Sizegrip(self,cursor=mac_mickey_16)#sizegripper_16)
    
-#+++# Separator (horisontal):
+#+++# Separator (horizontal):
         self.separat_h = ttk.Separator()
 
 
@@ -371,7 +366,7 @@ class Example(ThemedTk):
         self.listbox.grid(  row=7, column=0, rowspan=3,     padx=12,    pady=0,     sticky="new")
         self.scrollv.grid(  row=0, column=4, rowspan=11,    padx=0,     pady=(1,16),sticky="nes")
         self.tree.grid(     row=7, column=2, columnspan=2,  padx=5,                 **sticko)
-        self.scale.grid(    row=8, column=2, columnspan=2,  padx=5,                 **sticko)
+        self.scale.grid(    row=8, column=2, columnspan=2,  padx=5,     pady=(5,3),    **sticko)
         self.combo.grid(    row=9, column=2, columnspan=2,  padx=5,                 sticky="w")
         self.st1.grid(      row=9, column=0,                padx=12,                 sticky="ws")
         self.st2.grid(      row=10,column=0,                padx=12,                sticky="wn")

@@ -557,8 +557,8 @@ def setup_titled_menued_slate():
                         expand = True, 
                         fill = "both", pady=(0,headH))
                         
-    """
-     =====================  BODY TOP FRAME  =========================
+                        
+    """ =====================  BODY TOP FRAME  =========================
     """
     frm_bdy_content = tk.Frame(canv_bdy, 
                         bg = chi_bg, 
