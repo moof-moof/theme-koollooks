@@ -118,7 +118,7 @@ def setup_titled_menued_slate():
         if os.path.exists(a) and os.path.getsize(a) > 0: # Let's READ it
             _fl = open(a, "r") 
             _ln = _fl.readlines()        
-            oo = _ln[1]           # on/off, True or False   
+            oo = _ln[1]  # 2nd line: on/off, True/False   
             return oo     
         else:    # Write a new config file from scratch with temporary truth
             fl = open(a, "w")
